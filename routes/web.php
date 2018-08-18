@@ -19,5 +19,5 @@ $router->get('/', function () use ($router) {
 });
 
  
-$router->get('/content', 'ContentController@index'); 
+$router->post('/content', 'ContentController@index'); 
  

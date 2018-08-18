@@ -19,50 +19,76 @@ use App\Helpers\AzureStorageService;
 class ContentController  extends Controller
 { 
 
-    public function index(Request $request){
 
-       try {
+     /**
+    * @SWG\Post(
+    *     path="/content", 
+    *     description="Upload content to azure blob storage",
+    *     operationId="auth",
+    *     consumes={"application/json"},
+    *     produces={"application/json"}, 
+    *     @SWG\Parameter(
+    *         description="Path",
+    *         in="query",
+    *         name="path",
+    *         required=true,
+    *         type="string"
+    *     ), 
+    *     @SWG\Response(
+    *         response="200",
+    *         description="successful"
+    *     ),
+    *     summary="Content Management",
+    *     tags={
+    *         "Content Management"
+    *     }
+    * )
+    * */
 
-        $this->validate($request, [
-            'path'            => 'required'
-        ]);   
+     public function index(Request $request){
 
-        $Url = $request->path;
-        $ImageName = time().'.jpg';
-        
-        $ResultPut = PutImage::save($Url, $ImageName);
-        if($ResultPut) $Content = base_path().'/public/'.$ImageName;  
+         try {
 
-        $Endpoint       = env('BLOB_DEFAULT_ENDPOINTS_PROTOCOL');
-        $AccountName    = env('BLOB_ACCOUNT_NAME');
-        $AccountKey     = env('BLOB_ACCOUNT_KEY');
-        $Container      = env('BLOB_CONTAINER');
+            $this->validate($request, [
+                'path'            => 'required'
+            ]);   
 
-        $ConnectionString  = "DefaultEndpointsProtocol=".$Endpoint;
-        $ConnectionString .= ";AccountName=".$AccountName;
-        $ConnectionString .= ";AccountKey=".$AccountKey;
+            $Url = $request->path;
+            $ImageName = time().'.jpg';
 
-        $BlobClient  = BlobRestProxy::createBlobService($ConnectionString);
+            $ResultPut = PutImage::save($Url, $ImageName);
+            if($ResultPut) $Content = base_path().'/public/'.$ImageName;  
 
-        $NewFileName = 'category1/'.md5('lutfiganteng3.png'.time()).'.png';
-        $result = AzureStorageService::uploadBlobStorage($BlobClient, $Container, $Content, $NewFileName, null);
+            $Endpoint       = env('BLOB_DEFAULT_ENDPOINTS_PROTOCOL');
+            $AccountName    = env('BLOB_ACCOUNT_NAME');
+            $AccountKey     = env('BLOB_ACCOUNT_KEY');
+            $Container      = env('BLOB_CONTAINER');
 
-        if($result) $path = "$Endpoint://$AccountName.blob.core.windows.net/$Container/$NewFileName";
+            $ConnectionString  = "DefaultEndpointsProtocol=".$Endpoint;
+            $ConnectionString .= ";AccountName=".$AccountName;
+            $ConnectionString .= ";AccountKey=".$AccountKey;
 
-        $status   = 1;
-        $httpcode = 200;
-        $data     = $path ? $path : '';  
-        $errorMsg = 'Berhasil';
+            $BlobClient  = BlobRestProxy::createBlobService($ConnectionString);
 
-    }catch(\Exception $e){
-        $status   = 0;
-        $httpcode = 400;
-        $data     = null;
-        $errorMsg = $e->getMessage();
+            $NewFileName = 'category1/'.md5('lutfiganteng3.png'.time()).'.png';
+            $result = AzureStorageService::uploadBlobStorage($BlobClient, $Container, $Content, $NewFileName, null);
+
+            if($result) $path = "$Endpoint://$AccountName.blob.core.windows.net/$Container/$NewFileName";
+
+            $status   = 1;
+            $httpcode = 200;
+            $data     = $path ? $path : '';  
+            $errorMsg = 'Berhasil';
+
+        }catch(\Exception $e){
+            $status   = 0;
+            $httpcode = 400;
+            $data     = null;
+            $errorMsg = $e->getMessage();
+        } 
+
+        return response()->json(Api::format($status, $data, $errorMsg), $httpcode); 
+
     } 
-
-    return response()->json(Api::format($status, $data, $errorMsg), $httpcode); 
-
-} 
 
 }

@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Service Notification - Lendtick",
+        "title": "Service Content Management - Lendtick",
         "contact": {
             "email": "lutfi@awanesia.com"
         },
@@ -13,13 +13,13 @@
         "https"
     ],
     "paths": {
-        "/send": {
+        "/content": {
             "post": {
                 "tags": [
-                    "Notifications"
+                    "Content Management"
                 ],
-                "summary": "Notifications",
-                "description": "Send Notification Lendtick",
+                "summary": "Content Management",
+                "description": "Upload content to azure blob storage",
                 "operationId": "auth",
                 "consumes": [
                     "application/json"
@@ -29,45 +29,10 @@
                 ],
                 "parameters": [
                     {
-                        "name": "to",
+                        "name": "path",
                         "in": "query",
-                        "description": "To Recieve",
+                        "description": "Path",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "cc",
-                        "in": "query",
-                        "description": "CC email",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "subject",
-                        "in": "query",
-                        "description": "Subject Notification",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "body",
-                        "in": "query",
-                        "description": "Body Notification",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "type",
-                        "in": "query",
-                        "description": "Type Notification",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "attachment",
-                        "in": "query",
-                        "description": "Attachment : fullpath",
-                        "required": false,
                         "type": "string"
                     }
                 ],
