@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\PaymentTransactionRepo;
-use App\Repositories\InvoiceHeaderRepo;
 use App\Helpers\RestCurl;
 use App\Helpers\Api;
 use App\Helpers\PutImage;
@@ -14,13 +12,19 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use MicrosoftAzure\Storage\Common\ServiceException;
 use App\Helpers\AzureStorageService;
 
+use App\Repositories\ContentRepo;
 
 
 class ContentController  extends Controller
 { 
 
+    public function __construct(ContentRepo $ContentRepo)
+    {
+        $this->ContentRepo = $ContentRepo;
+    }
 
-     /**
+
+    /**
     * @SWG\Post(
     *     path="/content", 
     *     description="Upload content to azure blob storage",
@@ -75,9 +79,47 @@ class ContentController  extends Controller
 
             if($result) $path = "$Endpoint://$AccountName.blob.core.windows.net/$Container/$NewFileName";
 
+            $Status   = 1;
+            $HttpCode = 200;
+            $Data     = $path ? $path : '';  
+            $Message = 'Berhasil';
+
+        }catch(\Exception $e){
+            $Status   = 0;
+            $HttpCode = 400;
+            $Data     = null;
+            $Message = $e->getMessage();
+        } 
+
+        return response()->json(Api::format($Status, $Data, $Message), $HttpCode); 
+
+    }
+
+     public function promo(){
+        try{
+            $where = 'id_content_type';
+            $value = 'CONT001';
             $status   = 1;
             $httpcode = 200;
-            $data     = $path ? $path : '';  
+            $data     = $this->ContentRepo->ByConditions($where , $value);
+            $errorMsg = null;
+        }catch(\Exception $e){
+            $status   = 0;
+            $httpcode = 400;
+            $data     = null;
+            $errorMsg = $e->getMessage();
+        }
+        return response()->json(Api::format($status, $data, $errorMsg), $httpcode);
+    } 
+
+
+
+     public function GetByCategory(Request $request,$ContentType){
+
+         try { 
+            $status   = 1;
+            $httpcode = 200;
+            $data     = null;  
             $errorMsg = 'Berhasil';
 
         }catch(\Exception $e){
@@ -89,6 +131,6 @@ class ContentController  extends Controller
 
         return response()->json(Api::format($status, $data, $errorMsg), $httpcode); 
 
-    } 
+    }
 
 }
