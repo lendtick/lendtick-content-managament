@@ -19,15 +19,5 @@ $router->get('/', function () use ($router) {
 });
 
  
-// $router->get('/promo', 'ContentController@all'); 
-// $router->get('/content-promo/{ContentType}','ContentController@GetByCategory');
-
-
-$router->group(['prefix' => 'content'], function() use ($router){
-		$router->get('/promo','ContentController@promo');
-});
-
-// $router->group('content/', function() use ($router){
-    
-// });
+$router->post('/content', 'ContentController@index'); 
  

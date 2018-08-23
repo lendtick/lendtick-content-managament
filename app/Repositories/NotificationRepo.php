@@ -2,23 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Models\ContentModel as ContentDB;
+use App\Models\NotificationModel as NotificationDB;
 use Illuminate\Database\QueryException;
 
-class ContentRepo{
+class NotificationRepo{
 	
 	public function all($columns = array('*')){
 		try {
-			if($columns == array('*')) return ContentDB::all();
-			else return ContentDB::select($columns)->get();
-		}catch(QueryException $e){
-			throw new \Exception($e->getMessage(), 500);
-		}
-	}
-
-	public function ByConditions($where , $value){
-		try {
-			return ContentDB::where($where, $value)->orderBy('id_content', 'desc')->get();
+			if($columns == array('*')) return NotificationDB::all();
+			else return NotificationDB::select($columns)->get();
 		}catch(QueryException $e){
 			throw new \Exception($e->getMessage(), 500);
 		}
@@ -26,7 +18,7 @@ class ContentRepo{
 
 	public function create(array $data){
 		try {
-			return ContentDB::create($data);
+			return NotificationDB::create($data);
 		}catch(QueryException $e){
 			throw new \Exception($e->getMessage(), 500);
 		}
@@ -34,7 +26,7 @@ class ContentRepo{
 
 	public function find($column, $value){
 		try {
-			return ContentDB::where($column, $value)->first();
+			return NotificationDB::where($column, $value)->first();
 		}catch(QueryException $e){
 			throw new \Exception($e->getMessage(), 500);
 		}
@@ -42,7 +34,7 @@ class ContentRepo{
 
 	public function update($id, array $data){
 		try { 
-			return ContentDB::where('MsProductId',$id)->update($data);
+			return NotificationDB::where('MsProductId',$id)->update($data);
 		}catch(QueryException $e){
 			throw new \Exception($e->getMessage(), 500);
 		}	
@@ -50,7 +42,7 @@ class ContentRepo{
 
 	public function delete($id){
 		try { 
-			return ContentDB::where('MsProductId',$id)->delete();
+			return NotificationDB::where('MsProductId',$id)->delete();
 		}catch(QueryException $e){
 			throw new \Exception($e->getMessage(), 500);
 		}
@@ -59,7 +51,7 @@ class ContentRepo{
 
 	public function last(){
 		try{
-			return ContentDB::orderBy('Id', 'desc')->first();
+			return NotificationDB::orderBy('Id', 'desc')->first();
 		}catch(QueryException $e){
 			throw new \Exception($e->getMessage(), 500);
 		}
