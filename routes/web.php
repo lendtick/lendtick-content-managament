@@ -14,7 +14,7 @@
 use App\Helpers\Api;
 
 $router->get('/', function () use ($router) {
-    $message = 'Welcome to Service Content';
+    $message = 'Welcome to Service Content ';
     return response()->json(Api::format(200, $message . $router->app->version(), []), 200);
 });
 

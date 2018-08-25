@@ -13,28 +13,19 @@
         "https"
     ],
     "paths": {
-        "/content": {
-            "post": {
+        "/content/promo": {
+            "get": {
                 "tags": [
                     "Content Management"
                 ],
                 "summary": "Content Management",
                 "description": "Upload content to azure blob storage",
-                "operationId": "auth",
+                "operationId": "content",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "path",
-                        "in": "query",
-                        "description": "Path",
-                        "required": true,
-                        "type": "string"
-                    }
                 ],
                 "responses": {
                     "200": {
