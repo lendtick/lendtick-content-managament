@@ -95,6 +95,25 @@ class ContentController  extends Controller
 
     }
 
+
+    /**
+    * @SWG\Get(
+    *     path="/content/promo", 
+    *     description="Get content promo",
+    *     operationId="promo1",
+    *     consumes={"application/json"},
+    *     produces={"application/json"},
+    *     @SWG\Response(
+    *         response="200",
+    *         description="successful"
+    *     ),
+    *     summary="Content Management",
+    *     tags={
+    *         "Content Management"
+    *     }
+    * )
+    * */
+
      public function promo(){
         try{
             $where = 'id_content_type';
