@@ -37,6 +37,7 @@ $app->withEloquent();
 | your own bindings here if you like or you can make another file.
 |
 */
+$app->configure('app');
 $app->configure('swagger-lume');
 
 $app->singleton(
@@ -82,6 +83,10 @@ $app->routeMiddleware([
 | totally optional, so you are not required to uncomment this line.
 |
 */
+/**
+ * configure SENTRY
+ */
+$app->register('Sentry\Laravel\ServiceProvider');
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(\SwaggerLume\ServiceProvider::class);
