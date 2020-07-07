@@ -27,6 +27,10 @@ $router->group(['prefix' => 'content'], function() use ($router){
 		$router->get('/promo','ContentController@promo');
 });
 
+$router->get('/debug-sentry', function () {
+    throw new \Exception('Service Content!');
+});
+
 // $router->group('content/', function() use ($router){
     
 // });
